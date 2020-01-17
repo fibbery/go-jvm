@@ -1,4 +1,3 @@
 package classfile
 
-type ConstantPool []ContantInfo
-
+type ConstantPool []ConstantInfo

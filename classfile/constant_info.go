@@ -17,10 +17,21 @@ const (
 	CONSTANT_InvokeDynamic      = 18
 )
 
-type ContantInfo interface {
+type ConstantInfo interface {
 	readInfo(reader *ClassReader)
 }
 
-func readContantInfo(reader *ClassReader, cp ConstantPool)  {
+func readConstantInfo(reader *ClassReader, cp ConstantPool) ConstantInfo {
+	// todo read constant info
+	tag := reader.readUint8()
+	info := newConstantInfo(tag, cp)
+	info.readInfo(reader)
+	return info
+}
 
+func newConstantInfo(tag uint16, cp ConstantInfo) ConstantInfo {
+	switch tag {
+	case CONSTANT_Integer:
+		return &
+	}
 }

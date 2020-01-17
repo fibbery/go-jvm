@@ -75,6 +75,14 @@ func (file *ClassFile) readAndCheckVersion(reader *ClassReader) {
 func (file *ClassFile) readContantPool(reader *ClassReader) {
 	//todo read constant pool
 	size := reader.readUint16()
+	cp := make([]ConstantInfo, size)
+	for index := 1; index < int(size); index++ {
+		cp[index] = readConstantInfo(reader, cp)
+		// switch cp[index].(type){
+		// 	case
+		// }
+	}
+
 }
 
 func Parse(data []byte) (*ClassFile, error) {
