@@ -19,15 +19,15 @@ func Parse(jreOption, cpOption string) *Classpath {
 	return classpath
 }
 
-func (c *Classpath) readClass(className string) ([]byte, Entry, error) {
+func (c *Classpath) ReadClass(className string) ([]byte, Entry, error) {
 	classFilename := strings.ReplaceAll(className, ".", string(os.PathSeparator)) + ".class"
-	if bytes, entry, e := c.bootClasspath.readClass(classFilename); e == nil {
+	if bytes, entry, e := c.bootClasspath.ReadClass(classFilename); e == nil {
 		return bytes, entry, e
 	}
-	if bytes, entry, e := c.extClasspath.readClass(classFilename); e == nil {
+	if bytes, entry, e := c.extClasspath.ReadClass(classFilename); e == nil {
 		return bytes, entry, e
 	}
-	return c.userClasspath.readClass(classFilename)
+	return c.userClasspath.ReadClass(classFilename)
 }
 
 func (c *Classpath) String() string {
@@ -36,8 +36,8 @@ func (c *Classpath) String() string {
 
 func (c *Classpath) parseBootAndExtClasspath(jreOption string) {
 	jreDir := getJreDir(jreOption)
-	c.bootClasspath = CompositeEntry(newWildcardEntry(filepath.Join(jreDir, "lib", "*")))
-	c.extClasspath = CompositeEntry(newWildcardEntry(filepath.Join(jreDir, "lib", "ext", "*")))
+	c.bootClasspath = newWildcardEntry(filepath.Join(jreDir, "lib", "*"))
+	c.extClasspath = newWildcardEntry(filepath.Join(jreDir, "lib", "ext", "*"))
 }
 
 func (c *Classpath) parseUserClasspath(cpOption string) {

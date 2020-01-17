@@ -27,7 +27,7 @@ func newDirEntry(path string) *DirEntry {
 	return &DirEntry{absPath}
 }
 
-func (t *DirEntry) readClass(className string) ([]byte, Entry, error) {
+func (t *DirEntry) ReadClass(className string) ([]byte, Entry, error) {
 	filename := filepath.Join(t.absDir, className)
 	bytes, e := ioutil.ReadFile(filename)
 	return bytes, t, e

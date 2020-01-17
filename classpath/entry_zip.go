@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 )
 
+// ZipEntry parse zip or jar file
 type ZipEntry struct {
 	absDir string
 }
@@ -19,12 +20,15 @@ func newZipEntry(path string) *ZipEntry {
 	return &ZipEntry{absDir}
 }
 
-func (entry *ZipEntry) readClass(className string) ([]byte, Entry, error) {
+func (entry *ZipEntry) ReadClass(className string) ([]byte, Entry, error) {
 	z, e := zip.OpenReader(entry.absDir)
 	if e != nil {
 		panic(e)
 	}
 	for _, file := range z.File {
+		if file.Name != className {
+			continue
+		}
 		rc, e := file.Open()
 		if e != nil {
 			return nil, nil, e
@@ -33,12 +37,12 @@ func (entry *ZipEntry) readClass(className string) ([]byte, Entry, error) {
 		if e != nil {
 			return nil, nil, e
 		}
-		rc.Close()
+		_ = rc.Close()
 		return bytes, entry, nil
 	}
 	return nil, nil, errors.New("class not found : " + className)
 }
 
 func (entry *ZipEntry) String() string {
-
+	return entry.absDir
 }

@@ -11,7 +11,7 @@ type Cmd struct {
 	versionFlag bool
 	cpOption    string
 	jreOption   string
-	class       string
+	mainClass   string
 	args        []string
 }
 
@@ -26,7 +26,7 @@ func parseCmd() *Cmd {
 	flag.Parse()
 	args := flag.Args()
 	if len(args) > 0 {
-		cmd.class = args[0]
+		cmd.mainClass = args[0]
 		cmd.args = args[1:]
 	}
 	return cmd
