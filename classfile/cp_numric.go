@@ -13,7 +13,7 @@ func (c *ConstantIntegerInfo) readInfo(reader *ClassReader) {
 }
 
 type ConstantFloatInfo struct {
-	cp    ConstantInfo
+	cp    ConstantPool
 	value float32
 }
 
@@ -36,5 +36,5 @@ type ConstantDoubleInfo struct {
 }
 
 func (c *ConstantDoubleInfo) readInfo(reader *ClassReader) {
-
+	c.value = math.Float64frombits(reader.readUint64())
 }

@@ -29,9 +29,37 @@ func readConstantInfo(reader *ClassReader, cp ConstantPool) ConstantInfo {
 	return info
 }
 
-func newConstantInfo(tag uint16, cp ConstantInfo) ConstantInfo {
+func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	switch tag {
+	case CONSTANT_Class:
+		return &ConstantClassInfo{cp: cp}
+	case CONSTANT_Fieldref:
+		return &ConstantFieldRefInfo{Ref{cp: cp}}
+	case CONSTANT_Methodref:
+		return &ConstantMethodRefInfo{Ref{cp: cp}}
+	case CONSTANT_InterfaceMethodref:
+		return &ConstantInterfaceMethodRefInfo{Ref{cp: cp}}
+	case CONSTANT_String:
+		return nil
 	case CONSTANT_Integer:
-		return &
+		return &ConstantIntegerInfo{cp: cp}
+	case CONSTANT_Float:
+		return &ConstantFloatInfo{cp: cp}
+	case CONSTANT_Long:
+		return &ConstantLongInfo{cp: cp}
+	case CONSTANT_Double:
+		return &ConstantDoubleInfo{cp: cp}
+	case CONSTANT_NameAndType:
+		return nil
+	case CONSTANT_Utf8:
+		return nil
+	case CONSTANT_MethodHandle:
+		return nil
+	case CONSTANT_MethodType:
+		return nil
+	case CONSTANT_InvokeDynamic:
+		return nil
 	}
+
+	panic("parse error while read constant info")
 }

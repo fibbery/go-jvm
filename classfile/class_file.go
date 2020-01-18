@@ -72,17 +72,18 @@ func (file *ClassFile) readAndCheckVersion(reader *ClassReader) {
 	panic("java.lang.UnsupportedClassVersionError!")
 }
 
-func (file *ClassFile) readContantPool(reader *ClassReader) {
+func (file *ClassFile) readContantPool(reader *ClassReader) ConstantPool {
 	//todo read constant pool
 	size := reader.readUint16()
 	cp := make([]ConstantInfo, size)
 	for index := 1; index < int(size); index++ {
 		cp[index] = readConstantInfo(reader, cp)
-		// switch cp[index].(type){
-		// 	case
-		// }
+		switch cp[index].(type) {
+		case *ConstantLongInfo, *ConstantDoubleInfo:
+			index++
+		}
 	}
-
+	return cp
 }
 
 func Parse(data []byte) (*ClassFile, error) {
