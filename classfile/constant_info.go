@@ -40,7 +40,7 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	case CONSTANT_InterfaceMethodref:
 		return &ConstantInterfaceMethodRefInfo{Ref{cp: cp}}
 	case CONSTANT_String:
-		return nil
+		return &ConstantStringInfo{cp: cp}
 	case CONSTANT_Integer:
 		return &ConstantIntegerInfo{cp: cp}
 	case CONSTANT_Float:
@@ -50,9 +50,9 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	case CONSTANT_Double:
 		return &ConstantDoubleInfo{cp: cp}
 	case CONSTANT_NameAndType:
-		return nil
+		return &ConstantNameAndType{cp: cp}
 	case CONSTANT_Utf8:
-		return nil
+		return &ConstantUTF8{cp: cp}
 	case CONSTANT_MethodHandle:
 		return nil
 	case CONSTANT_MethodType:
