@@ -31,12 +31,10 @@ type ClassFile struct {
 	accessFlag      uint16
 	thisClass       uint16
 	superClass      uint16
-	interfacesCount uint16
-	// interfaces []
-	filedsCount uint16
-	// field_info []
-	methodsCount uint16
-	// method_info []
+	interfaces      []uint16
+	filedsCount     uint16
+	fields          []MemberInfo
+	methods         []MemberInfo
 	attributesCount uint16
 	// attribute_info []
 }
@@ -44,15 +42,18 @@ type ClassFile struct {
 func (file *ClassFile) read(reader *ClassReader) {
 	file.readAndCheckMagicNumber(reader)
 	file.readAndCheckVersion(reader)
-	file.readContantPool(reader)
+	file.constPool = file.readContantPool(reader)
 	file.accessFlag = reader.readUint16()
 	file.thisClass = reader.readUint16()
 	file.superClass = reader.readUint16()
+	file.interfaces = reader.readUint16s()
+	file.fields = file.readMemberInfos(reader)
+	file.methods = file.readMemberInfos(reader)
 }
 
 func (file *ClassFile) readAndCheckMagicNumber(reader *ClassReader) {
-	u := reader.readUint32()
-	if u != 0xCAFEBABE {
+	file.magic = reader.readUint32()
+	if file.magic != 0xCAFEBABE {
 		panic("class file format error : magic number!!!")
 	}
 }
@@ -70,6 +71,29 @@ func (file *ClassFile) readAndCheckVersion(reader *ClassReader) {
 		}
 	}
 	panic("java.lang.UnsupportedClassVersionError!")
+}
+
+func (file *ClassFile) readContantPool(reader *ClassReader) ConstantPool {
+	//todo read constant pool
+	size := reader.readUint16()
+	cp := make([]ConstantInfo, size)
+	for index := 1; index < int(size); index++ {
+		cp[index] = readConstantInfo(reader, cp)
+		switch cp[index].(type) {
+		case *ConstantLongInfo, *ConstantDoubleInfo:
+			index++
+		}
+	}
+	return cp
+}
+
+func (file *ClassFile) readMemberInfos(reader *ClassReader) []MemberInfo {
+	size := reader.readUint16()
+	infos := make([]MemberInfo, size)
+	for index := range infos {
+		infos[index] = readMemberInfo(reader, file.constPool)
+	}
+	return infos
 }
 
 func Parse(data []byte) (*ClassFile, error) {

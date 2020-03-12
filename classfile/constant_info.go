@@ -54,11 +54,11 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	case CONSTANT_Utf8:
 		return &ConstantUTF8{cp: cp}
 	case CONSTANT_MethodHandle:
-		return nil
+		return &ConstantMethodHandleInfo{}
 	case CONSTANT_MethodType:
-		return nil
+		return &ConstantMethodTypeInfo{}
 	case CONSTANT_InvokeDynamic:
-		return nil
+		return &ConstantInvokeDynamicInfo{}
 	}
 
 	panic("parse error while read constant info")
