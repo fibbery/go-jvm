@@ -8,7 +8,7 @@ type ConstantIntegerInfo struct {
 	value int32
 }
 
-func (c *ConstantIntegerInfo) readInfo(reader *ClassReader) {
+func (c *ConstantIntegerInfo) readConst(reader *ClassReader) {
 	c.value = int32(reader.readUint32())
 }
 
@@ -17,7 +17,7 @@ type ConstantFloatInfo struct {
 	value float32
 }
 
-func (c *ConstantFloatInfo) readInfo(reader *ClassReader) {
+func (c *ConstantFloatInfo) readConst(reader *ClassReader) {
 	c.value = math.Float32frombits(reader.readUint32())
 }
 
@@ -26,7 +26,7 @@ type ConstantLongInfo struct {
 	value int64
 }
 
-func (c *ConstantLongInfo) readInfo(reader *ClassReader) {
+func (c *ConstantLongInfo) readConst(reader *ClassReader) {
 	c.value = int64(reader.readUint64())
 }
 
@@ -35,6 +35,6 @@ type ConstantDoubleInfo struct {
 	value float64
 }
 
-func (c *ConstantDoubleInfo) readInfo(reader *ClassReader) {
+func (c *ConstantDoubleInfo) readConst(reader *ClassReader) {
 	c.value = math.Float64frombits(reader.readUint64())
 }

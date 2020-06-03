@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/fibbery/go-jvm/classpath"
 	"os"
 	"strings"
+
+	"github.com/fibbery/go-jvm/classpath"
 )
 
 func main() {

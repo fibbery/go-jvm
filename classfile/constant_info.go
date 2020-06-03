@@ -18,14 +18,14 @@ const (
 )
 
 type ConstantInfo interface {
-	readInfo(reader *ClassReader)
+	readConst(reader *ClassReader)
 }
 
 func readConstantInfo(reader *ClassReader, cp ConstantPool) ConstantInfo {
 	// todo read constant info
 	tag := reader.readUint8()
 	info := newConstantInfo(tag, cp)
-	info.readInfo(reader)
+	info.readConst(reader)
 	return info
 }
 

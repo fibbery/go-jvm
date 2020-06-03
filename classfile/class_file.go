@@ -74,7 +74,7 @@ func (file *ClassFile) readAndCheckVersion(reader *ClassReader) {
 }
 
 func (file *ClassFile) readContantPool(reader *ClassReader) ConstantPool {
-	//todo read constant pool
+	//read constant pool
 	size := reader.readUint16()
 	cp := make([]ConstantInfo, size)
 	for index := 1; index < int(size); index++ {

@@ -5,6 +5,6 @@ type ConstantMethodTypeInfo struct {
 	descriptorIndex uint16
 }
 
-func (c *ConstantMethodTypeInfo) readInfo(reader *ClassReader) {
+func (c *ConstantMethodTypeInfo) readConst(reader *ClassReader) {
 	c.descriptorIndex = reader.readUint16()
 }

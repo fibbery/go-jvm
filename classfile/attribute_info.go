@@ -35,7 +35,7 @@ const (
 )
 
 type AttributeInfo interface {
-	readInfo(reader *ClassReader)
+	readAttr(reader *ClassReader)
 }
 
 func readAttributes(reader *ClassReader, cp ConstantPool) []AttributeInfo {
@@ -53,19 +53,27 @@ func readAttribute(reader *ClassReader, cp ConstantPool) AttributeInfo {
 	attrLen := reader.readUint32()
 
 	attribute := newAttributeInfo(cp, attrName, attrLen)
-	attribute.readInfo(reader)
+	attribute.readAttr(reader)
 	return attribute
 }
 
 func newAttributeInfo(cp ConstantPool, name string, length uint32) AttributeInfo {
 	switch name {
 	case Attr_Code:
+		return NewCodeAttribute(cp)
 	case Attr_ConstantValue:
+		return NewConstantValueAttribute(cp)
 	case Attr_Deprecated:
+		return NewDeprecatedAttribute()
 	case Attr_Exceptions:
+		return NewExceptionsAttribute(cp)
 	case Attr_LineNumberTable:
+		return NewLineNumberTableAttribute(cp)
 	case Attr_LocalVariableTable:
+		return NewLocalVariableTableAttribute(cp)
 	case Attr_SourceFile:
+		return NewSourceFileAttribute(cp)
 	case Attr_Synthetic:
+		return NewSyntheticAttribute()
 	}
 }

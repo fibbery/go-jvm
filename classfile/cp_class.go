@@ -6,7 +6,7 @@ type ConstantClassInfo struct {
 	nameIndex uint16
 }
 
-func (c *ConstantClassInfo) readInfo(reader *ClassReader) {
+func (c *ConstantClassInfo) readConst(reader *ClassReader) {
 	c.nameIndex = reader.readUint16()
 }
 

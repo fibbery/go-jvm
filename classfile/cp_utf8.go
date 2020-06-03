@@ -5,7 +5,7 @@ type ConstantUTF8 struct {
 	value string
 }
 
-func (c *ConstantUTF8) readInfo(reader *ClassReader) {
+func (c *ConstantUTF8) readConst(reader *ClassReader) {
 	length := uint32(reader.readUint16())
 	data := reader.readBytes(length)
 	c.value = string(data)

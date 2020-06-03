@@ -13,7 +13,7 @@ type Ref struct {
 	nameAndTypeIndex uint16
 }
 
-func (c *Ref) readInfo(reader *ClassReader) {
+func (c *Ref) readConst(reader *ClassReader) {
 	c.classIndex = reader.readUint16()
 	c.nameAndTypeIndex = reader.readUint16()
 }

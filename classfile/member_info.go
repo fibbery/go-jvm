@@ -35,6 +35,6 @@ func readMemberInfo(reader *ClassReader, cp ConstantPool) MemberInfo {
 		accessFlags:     reader.readUint16(),
 		nameIndex:       reader.readUint16(),
 		descriptorIndex: reader.readUint16(),
-		attributes:      readerAttributes(reader, cp),
+		attributes:      readAttributes(reader, cp),
 	}
 }
