@@ -29,6 +29,10 @@ type MemberInfo struct {
 	attributes      []AttributeInfo
 }
 
+func (m MemberInfo) Name() string{
+	return m.cp.readUTF8(m.nameIndex)
+}
+
 func readMemberInfo(reader *ClassReader, cp ConstantPool) MemberInfo {
 	return MemberInfo{
 		cp:              cp,

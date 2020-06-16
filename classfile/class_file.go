@@ -39,6 +39,49 @@ type ClassFile struct {
 	// attribute_info []
 }
 
+func (file *ClassFile) Methods() []MemberInfo {
+	return file.methods
+}
+
+func (file *ClassFile) Fields() []MemberInfo {
+	return file.fields
+}
+
+func (file *ClassFile) Interfaces() []string{
+	names := make([]string, len(file.interfaces))
+	for index, value := range file.interfaces {
+		names[index] = file.constPool.getClassName(value)
+	}
+	return names
+}
+
+func (file *ClassFile) SuperClass() string {
+	if file.superClass > 0 {
+		return file.constPool.getClassName(file.superClass)
+	}
+	return ""
+}
+
+func (file *ClassFile) ThisClass() string {
+	return file.constPool.getClassName(file.thisClass)
+}
+
+func (file *ClassFile) AccessFlag() uint16 {
+	return file.accessFlag
+}
+
+func (file *ClassFile) ConstPool() ConstantPool {
+	return file.constPool
+}
+
+func (file *ClassFile) MajorVersion() uint16 {
+	return file.majorVersion
+}
+
+func (file *ClassFile) MinorVersion() uint16 {
+	return file.minorVersion
+}
+
 func (file *ClassFile) read(reader *ClassReader) {
 	file.readAndCheckMagicNumber(reader)
 	file.readAndCheckVersion(reader)
@@ -60,8 +103,8 @@ func (file *ClassFile) readAndCheckMagicNumber(reader *ClassReader) {
 
 // readAndCheckVersion check is supported jdk version
 func (file *ClassFile) readAndCheckVersion(reader *ClassReader) {
-	file.majorVersion = reader.readUint16()
-	file.minorVersion = reader.readUint16()
+	file.minorVersion= reader.readUint16()
+	file.majorVersion= reader.readUint16()
 	switch file.majorVersion {
 	case 45:
 		return

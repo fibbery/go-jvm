@@ -75,5 +75,7 @@ func newAttributeInfo(cp ConstantPool, name string, length uint32) AttributeInfo
 		return NewSourceFileAttribute(cp)
 	case Attr_Synthetic:
 		return NewSyntheticAttribute()
+	default:
+		return NewUnparsedAttribute(name,length)
 	}
 }
