@@ -35,8 +35,8 @@ func (vars LocalVars) SetLong(index uint, value int64) {
 }
 
 func (vars LocalVars) GetLong(index uint) int64 {
-	low := vars[index].num
-	high := vars[index+1].num
+	low := uint32(vars[index].num)
+	high := uint32(vars[index+1].num)
 	return int64(high)<<32 | int64(low)
 }
 

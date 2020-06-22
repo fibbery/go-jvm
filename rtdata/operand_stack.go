@@ -26,7 +26,7 @@ func (o *OperandStack) PopInt() int32 {
 	return o.slots[o.size].num
 }
 
-func (o *OperandStack) PutFloat(value float32) {
+func (o *OperandStack) PushFloat(value float32) {
 	o.slots[o.size].num = int32(math.Float32bits(value))
 	o.size++
 }
@@ -37,7 +37,7 @@ func (o *OperandStack) PopFloat() float32 {
 	return math.Float32frombits(bits)
 }
 
-func (o *OperandStack) PutLong(value int64) {
+func (o *OperandStack) PushLong(value int64) {
 	//low
 	o.slots[o.size].num = int32(value)
 	//high
@@ -47,18 +47,18 @@ func (o *OperandStack) PutLong(value int64) {
 
 func (o *OperandStack) PopLong() int64 {
 	o.size = o.size - 2
-	low := int64(o.slots[o.size].num)
-	high := int64(o.slots[o.size+1].num << 32)
-	return high | low
+	low := uint32(o.slots[o.size].num)
+	high := uint32(o.slots[o.size+1].num)
+	return int64(high) << 32 | int64(low)
 }
 
 func (o *OperandStack) PushDouble(value float64) {
 	bits := math.Float64bits(value)
-	o.PutLong(int64(bits))
+	o.PushLong(int64(bits))
 }
 
 func (o *OperandStack) PopDouble() float64 {
-	return math.Float64frombits(uint64(o.PopFloat()))
+	return math.Float64frombits(uint64(o.PopLong()))
 }
 
 func (o *OperandStack) PushRef(ref *Object) {
